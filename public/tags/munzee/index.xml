@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Munzee on Jonas Blog</title>
+    <link>http://jonasriedel.de/tags/munzee/</link>
+    <description>Recent content in Munzee on Jonas Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>de-de</language>
+    <lastBuildDate>Tue, 03 Jun 2014 19:19:16 +0100</lastBuildDate>
+    <atom:link href="http://jonasriedel.de/tags/munzee/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>BULK MUNZEE GENERATOR</title>
+      <link>http://jonasriedel.de/post/bulkmunzee/</link>
+      <pubDate>Tue, 03 Jun 2014 19:19:16 +0100</pubDate>
+      
+      <guid>http://jonasriedel.de/post/bulkmunzee/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://www.munzee.com/&#34;&gt;Munzee&lt;/a&gt; ist sowas wie ein Konkurrent für Geocaching. Und eher was für faule Leute, einfach zur angegebenen Position gehen, meistens nicht lang suchen und dann &amp;ldquo;capturen&amp;rdquo; (QR-Code scannen). Gerade das macht für die meisten Anhänger dieser Sportart den Reitz aus. Auch das man im vorübergehen selbst Munzees &amp;ldquo;deployen&amp;rdquo; kann trägt zum Spielspaß bei. Dabei stellt sich allerdings die Frage wie man die Munzees am besten anbringen kann. QR-Code selbst ausdrucken und laminieren ist eine Möglichkeit, oder direkt auf Aufkleber drucken usw. Alles aber sehr zeitaufwändig oder nicht sehr haltbar.&lt;/p&gt;
+
+&lt;p&gt;Eine bessere Möglichkeit sind die Sticker Alben von moo.com, kleine Aufkleber-Heftchen, deren Sticker sehr gut kleben und wasserfest sind.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://jonasriedel.de/post/munzeeblog.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Die Bilder für die Sticker-Alben müssen 283x283 Pixel groß sein. Um hier ein wenig Handarbeit zu sparen, habe ich eine Webseite gemacht, welche den Arbeitsprozess vereinfacht:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://lirumlarum666.appspot.com/bulkmunzee&#34;&gt;http://lirumlarum666.appspot.com/bulkmunzee&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Einfach mal ein Blick rein werfen und dann Munzees deployen !&lt;/p&gt;
+
+&lt;p&gt;Technisch wurde die Webseite als Go Programm realisiert und läuft auf der Google-App-Engine.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

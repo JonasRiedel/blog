@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# website: http://ogp.me/ns/website#">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <meta name="description" content="">
+    <meta property="og:title" content="MIT SYSTEMD DOCKER CONTAINER STARTEN">
+    
+    <meta property="og:type" content="article">
+    <meta property="article:published_time" content="2016-03-13">
+    
+    <meta property="og:description" content="">
+    <meta property="og:url" content="http://jonasriedel.de/post/systemd/">
+    <meta property="og:site_name" content="Jonas Blog">
+    
+    <meta name="generator" content="Hugo 0.15" />
+    <title>MIT SYSTEMD DOCKER CONTAINER STARTEN &middot; Jonas Blog</title>
+    
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css">
+    
+    <link rel="stylesheet" href="http://jonasriedel.de/css/style.css">
+    <link href="" rel="alternate" type="application/rss+xml" title="Jonas Blog" />
+
+    
+    
+
+<link rel="stylesheet" href="https://yandex.st/highlightjs/8.0/styles/default.min.css">
+<script src="https://yandex.st/highlightjs/8.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+</head>
+
+<nav class="navbar navbar-default navbar-fixed-top visible-xs">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			
+				<a class="navbar-brand" href="http://jonasriedel.de/">JONAS RIEDEL</a>
+			
+		</div>
+		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+			<ul class="nav navbar-nav">
+				
+				
+					<li><a href="http://jonasriedel.de/post/">Blog</a></li>
+				
+			</ul>
+		</div>
+	</div>
+</nav>
+<div class="container-fluid">
+	<div class="row">
+		<div id="menu" class="hidden-xs col-sm-4 col-md-3">
+	<div id="menu-content" class="vertical-align">
+		
+			<h1 class="text-center"><a href="http://jonasriedel.de/">JONAS RIEDEL</a></h1>
+		
+		
+		
+			<small class="text-center center-block">SOFTWARE PROFESSIONAL</small>
+		
+		
+		
+			<img id="profile-pic" src="http://jonasriedel.de//img/profil.jpg" alt="My Picture" class="img-circle center-block">
+		
+		<div id="social" class="text-center">
+			
+			
+			
+			<a href="mailto:jonasriedel70@gmail.com"><i class="fa fa-envelope-o fa-2x"></i></a>
+		</div>
+		<div id="links" class="text-center">
+			
+			
+				<a href="http://jonasriedel.de/post/">Blog</a>
+			
+		</div>
+	</div>
+</div>
+		<div id="content" class="col-xs-12 col-sm-8 col-md-9">
+			<div class="row">
+				<div id="post" class="col-sm-offset-1 col-sm-10 col-md-10 col-lg-8">
+
+<main>
+	<header>
+		<h1>MIT SYSTEMD DOCKER CONTAINER STARTEN</h1>
+	</header>
+
+	<article>
+		<p>Auf meinem <a href="/post/first">Raspberry Pi Docker Cluster</a> habe ich den Service-Discocvery Dienst Consul als Container installiert. Damit das Teil jetzt auch nach einem reboot startet, wird jetzt ein systemd Service eingerichtet der Consul automatisch startet.</p>
+
+<p>Dazu legen wir als root die Datei <code>/etc/systemd/system/consul.service</code> an mit folgendem Inhalt:</p>
+
+<pre><code class="language-bash">[Unit]
+Description=Consul
+After=docker.service
+Requires=docker.service
+
+[Service]
+TimeoutStartSec=0
+ExecStart=/usr/bin/docker start consul
+ExecStop=/usr/bin/docker stop consul
+
+[Install]
+WantedBy=multi-user.target
+</code></pre>
+
+<p>Hier beschreiben wir den Dienst &ldquo;Consul&rdquo; und sagen das er nach dem Docker-Service gestartet werden soll. Das wars schon. Natürlich muss die Datei auf alle Cluster Pi&rsquo;s kopiert werden.
+Dann noch den Service aktivieren</p>
+
+<pre><code>systemctl enable  /etc/systemd/system/consul.service
+</code></pre>
+
+<p>und erstmal den Dienst von Hand starten</p>
+
+<pre><code>systemctl start consul.service
+</code></pre>
+
+<p>So, jetzt sollte der Consul Container laufen und auch beim nächsten Systemstart automatisch geladen werden.
+War ja einfach&hellip;..</p>
+
+	</article>
+</main>
+
+<div id="bottom-nav" class="text-center center-block">
+	<a href=" http://jonasriedel.de/" class="btn btn-default"><i class="fa fa-home"></i> Home</a>
+</div>
+
+
+  <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'jonasriedel';
+    var disqus_identifier = 'http:\/\/jonasriedel.de\/post\/systemd\/';
+    var disqus_title = 'MIT SYSTEMD DOCKER CONTAINER STARTEN';
+    var disqus_url = 'http:\/\/jonasriedel.de\/post\/systemd\/';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+  </div>
+  
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'SHORT-CODE-HERE', 'auto');
+    ga('send', 'pageview');
+    window.baseURL = "http:\/\/jonasriedel.de\/";
+  </script>
+  
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.2/js/bootstrap.min.js"></script>
+  
+  <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/topojson/1.6.9/topojson.min.js"></script>
+  
+  
+  <script src="http://jonasriedel.de//js/App.js"></script>
+  
+</body>
+</html>

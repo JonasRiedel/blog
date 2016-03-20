@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Datadog on Jonas Blog</title>
+    <link>http://jonasriedel.de/tags/datadog/</link>
+    <description>Recent content in Datadog on Jonas Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>de-de</language>
+    <lastBuildDate>Fri, 11 Mar 2016 20:29:05 +0000</lastBuildDate>
+    <atom:link href="http://jonasriedel.de/tags/datadog/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Datadog für Raspberry Pi</title>
+      <link>http://jonasriedel.de/post/datadog/</link>
+      <pubDate>Fri, 11 Mar 2016 20:29:05 +0000</pubDate>
+      
+      <guid>http://jonasriedel.de/post/datadog/</guid>
+      <description>&lt;hr /&gt;
+
+&lt;p&gt;Datadog ist eine Online-Monitoring Webseite. Dort kann man diverse Metriken visualisieren lassen. Im konstenlosen Basispaket sind bis zu 5 Hosts enthalten. Genau richtig für &lt;a href=&#34;http://jonasriedel.de/post/first/&#34;&gt;mein Raspberry Pi Cluster&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Da Datadog kein Binary für den Raspberry bereitstellt, nimmt man am besten die Python Variante. Dazu muss folgendes gemacht werden:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;sudo apt-get install sysstat
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Dann muss man in seinem Datadog Account bei &amp;ldquo;Installation Instructions&amp;rdquo; die Auswahl &amp;ldquo;From Source&amp;rdquo; treffen und den gezeigten Befehl in der Console ausführen.
+&lt;img src=&#34;http://jonasriedel.de/post/datadog.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Also dann den entsprechenden Befehl ausführen:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;DD_API_KEY=&amp;lt;API_KEY&amp;gt; sh -c &amp;quot;$(curl -L https://raw.githubusercontent.com/DataDog/dd-agent/master/packaging/datadog-agent/source/setup_agent.sh)&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Wenn der Agent korrekt gestartet wurde sollte das irgendwann so aussehen:
+&lt;img src=&#34;http://jonasriedel.de/post/datadogagent.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Wenn man jetzt CRTL-C drückt, bricht man den Agent ab, ist ja irgendwie suboptimal&amp;hellip;.
+Also hier ein kleines inti.d Script was den Agent als Service starten kann:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;#!/bin/sh
+# /etc/init.d/datadog
+
+### BEGIN INIT INFO
+# Provides:          datadog
+# Required-Start:    $remote_fs $syslog
+# Required-Stop:     $remote_fs $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Datadog Agent start script
+# Description:       This service is used to provide data to datadog
+### END INIT INFO
+
+
+case &amp;quot;$1&amp;quot; in
+    start)
+        echo &amp;quot;Starting datadog agent&amp;quot;
+        nohup /root/.datadog-agent/bin/agent 2&amp;gt;&amp;amp;1 &amp;gt;/var/log/datadog.log &amp;amp;
+        ;;
+    stop)
+        echo &amp;quot;Stopping datadog agent&amp;quot;
+        killall agent
+        ;;
+    *)
+        echo &amp;quot;Usage: /etc/init.d/datadog start|stop&amp;quot;
+        exit 1
+        ;;
+esac
+
+exit 0
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Eventuell müsst ihr den Pfad &lt;code&gt;/root/.datadog-agent/bin/agent&lt;/code&gt; anpassen, jenachdem wo ihr das Paket runtergeladen habt.
+Das Script in die Datei &lt;code&gt;/etc/init.d/datadog&lt;/code&gt; kopieren, dann wird der Agent beim booten gestartet. Von Hand geht das dann so:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;service datadog start
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Jetzt kann man in Datadog seine Metriken visualisieren, mein Dashboard für meine 3 Pi&amp;rsquo;s sieht z.B. so aus:
+&lt;img src=&#34;http://jonasriedel.de/post/datadogdashboard.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

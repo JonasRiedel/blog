@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Go on Jonas Blog</title>
+    <link>http://jonasriedel.de/tags/go/</link>
+    <description>Recent content in Go on Jonas Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>de-de</language>
+    <lastBuildDate>Tue, 15 Sep 2015 21:37:23 +0100</lastBuildDate>
+    <atom:link href="http://jonasriedel.de/tags/go/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>CROSSCOMPILING MIT GO</title>
+      <link>http://jonasriedel.de/post/crosscompiling/</link>
+      <pubDate>Tue, 15 Sep 2015 21:37:23 +0100</pubDate>
+      
+      <guid>http://jonasriedel.de/post/crosscompiling/</guid>
+      <description>
+
+&lt;p&gt;Mit go 1.5 ist das cross compilieren nochmal deutlich einfacher geworden, zumindest wenn kein cgo im Spiel ist. Aber auch sonst ist es nicht kompliziert.&lt;/p&gt;
+
+&lt;h2 id=&#34;bootstrapping:a2bea2f220fcf8042f6ccefcd0dee60f&#34;&gt;Bootstrapping&lt;/h2&gt;
+
+&lt;p&gt;Wenn man doch mal die go Toolchain bootstrappen muss geht das unter Windows wie folgt:&lt;/p&gt;
+
+&lt;h2 id=&#34;schritt-für-schritt-anleitung:a2bea2f220fcf8042f6ccefcd0dee60f&#34;&gt;Schritt-für-Schritt-Anleitung&lt;/h2&gt;
+
+&lt;p&gt;Gcc für Windows runterladen z.B. MinGW: hier &lt;a href=&#34;https://sourceforge.net/projects/mingw/files/latest/download&#34;&gt;https://sourceforge.net/projects/mingw/files/latest/download&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Gcc über GUI installieren&lt;/p&gt;
+
+&lt;p&gt;Path für c:\MinGW\bin setzen&lt;/p&gt;
+
+&lt;p&gt;Nach c:\Go\src wechseln&lt;/p&gt;
+
+&lt;p&gt;Folgendes ausführen (Erzeugt Bootstrap für Linux 32 bit):&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;	env CGO_ENABLED=1 GOROOT_BOOTSTRAP=c:\\Go GOOS=linux GOARCH=386 make.bat --no-clean
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Folgendes ausfürhren (Erzeugt Bootstrap für Linux 64 bit):&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;	env CGO_ENABLED=1 GOROOT_BOOTSTRAP=c:\\Go GOOS=linux GOARCH=amd64 make.bat --no-clean
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Jetzt kann man wie folgt cross compilen:&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Ziel: Linux 32bit&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;GOOS=linux GOARCH=386 go build
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Ergebnis:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ file goCsv2Xlsx
+goCsv2Xlsx32: ELF 32-bit LSB executable, Intel 80386, version 1 (SYSV), statically linked, not stripped
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Ziel: Linux64bit&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;GOOS=linux GOARCH=amd64 go build
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Ergebnis:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ file goCsv2Xlsx
+goCsv2Xlsx: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), statically linked, not stripped
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Generell werden folgende Zielarchitekturen unterstützt:&lt;/p&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;$GOOS&lt;/th&gt;
+&lt;th&gt;$GOARCH&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;darwin&lt;/td&gt;
+&lt;td&gt;386&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;darwin&lt;/td&gt;
+&lt;td&gt;amd64&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;darwin&lt;/td&gt;
+&lt;td&gt;arm&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;darwin&lt;/td&gt;
+&lt;td&gt;arm64&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;dragonfly&lt;/td&gt;
+&lt;td&gt;amd64&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;freebsd&lt;/td&gt;
+&lt;td&gt;386&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;freebsd&lt;/td&gt;
+&lt;td&gt;amd64&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;freebsd&lt;/td&gt;
+&lt;td&gt;arm&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;linux&lt;/td&gt;
+&lt;td&gt;386&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;linux&lt;/td&gt;
+&lt;td&gt;amd64&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;linux&lt;/td&gt;
+&lt;td&gt;arm&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;linux&lt;/td&gt;
+&lt;td&gt;arm64&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;linux&lt;/td&gt;
+&lt;td&gt;ppc64&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;linux&lt;/td&gt;
+&lt;td&gt;ppc64le&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;netbsd&lt;/td&gt;
+&lt;td&gt;386&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;netbsd&lt;/td&gt;
+&lt;td&gt;amd64&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;netbsd&lt;/td&gt;
+&lt;td&gt;arm&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;openbsd&lt;/td&gt;
+&lt;td&gt;386&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;openbsd&lt;/td&gt;
+&lt;td&gt;amd64&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;openbsd&lt;/td&gt;
+&lt;td&gt;arm&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;plan9&lt;/td&gt;
+&lt;td&gt;386&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;plan9&lt;/td&gt;
+&lt;td&gt;amd64&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;solaris&lt;/td&gt;
+&lt;td&gt;amd64&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;windows&lt;/td&gt;
+&lt;td&gt;386&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;windows&lt;/td&gt;
+&lt;td&gt;amd64&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>BULK MUNZEE GENERATOR</title>
+      <link>http://jonasriedel.de/post/bulkmunzee/</link>
+      <pubDate>Tue, 03 Jun 2014 19:19:16 +0100</pubDate>
+      
+      <guid>http://jonasriedel.de/post/bulkmunzee/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://www.munzee.com/&#34;&gt;Munzee&lt;/a&gt; ist sowas wie ein Konkurrent für Geocaching. Und eher was für faule Leute, einfach zur angegebenen Position gehen, meistens nicht lang suchen und dann &amp;ldquo;capturen&amp;rdquo; (QR-Code scannen). Gerade das macht für die meisten Anhänger dieser Sportart den Reitz aus. Auch das man im vorübergehen selbst Munzees &amp;ldquo;deployen&amp;rdquo; kann trägt zum Spielspaß bei. Dabei stellt sich allerdings die Frage wie man die Munzees am besten anbringen kann. QR-Code selbst ausdrucken und laminieren ist eine Möglichkeit, oder direkt auf Aufkleber drucken usw. Alles aber sehr zeitaufwändig oder nicht sehr haltbar.&lt;/p&gt;
+
+&lt;p&gt;Eine bessere Möglichkeit sind die Sticker Alben von moo.com, kleine Aufkleber-Heftchen, deren Sticker sehr gut kleben und wasserfest sind.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://jonasriedel.de/post/munzeeblog.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Die Bilder für die Sticker-Alben müssen 283x283 Pixel groß sein. Um hier ein wenig Handarbeit zu sparen, habe ich eine Webseite gemacht, welche den Arbeitsprozess vereinfacht:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://lirumlarum666.appspot.com/bulkmunzee&#34;&gt;http://lirumlarum666.appspot.com/bulkmunzee&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Einfach mal ein Blick rein werfen und dann Munzees deployen !&lt;/p&gt;
+
+&lt;p&gt;Technisch wurde die Webseite als Go Programm realisiert und läuft auf der Google-App-Engine.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>GO - GOLANG</title>
+      <link>http://jonasriedel.de/post/golang/</link>
+      <pubDate>Sat, 24 May 2014 22:09:01 +0100</pubDate>
+      
+      <guid>http://jonasriedel.de/post/golang/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://golang.org/&#34;&gt;Go&lt;/a&gt; (oder auch Golang) ist eine &amp;ldquo;neue&amp;rdquo; Programmiersprache, die von Google erfunden wurde. Genauer gesagt von Rob Pike und Ken Thomson, die beiden könnte man kennen, da sie auch UTF-8 entwickelt haben.&lt;/p&gt;
+
+&lt;p&gt;Wie immer wenn eine neue Programmiersprache entwickelt wird, wurde auch hier versucht, aus den Problemen der aktuellen Sprachen zu lernen.
+So wurde Go zur &amp;ldquo;Programmiersprache des 21. Jahrunderts&amp;rdquo;, mit Garbage Collection, starker Typisierung, Nebenläufigkeit, &amp;ldquo;Duck typing&amp;rdquo; und hoher Internet Affinität.&lt;/p&gt;
+
+&lt;p&gt;Ein einfaches &amp;ldquo;Hello World&amp;rdquo; Programm in Go:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;package main
+ 
+import &amp;quot;fmt&amp;quot;
+ 
+func main() {
+	fmt.Println(&amp;quot;Hello World&amp;quot;)
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Hier das ganze nochmal, nur das das Go Programm jetzt ein Webserver ist, der eine Webseite mit &amp;ldquo;Hello World&amp;rdquo; zeigt:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;package main
+
+import (
+    &amp;quot;fmt&amp;quot;
+    &amp;quot;net/http&amp;quot;
+)
+
+func handler(w http.ResponseWriter, r *http.Request) {
+    fmt.Fprintf(w, &amp;quot;Hello World&amp;quot;)
+}
+
+func main() {
+    http.HandleFunc(&amp;quot;/&amp;quot;, handler)
+    http.ListenAndServe(&amp;quot;:8080&amp;quot;, nil)
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Man sieht schon das es sehr einfach ist einen normalen Browser als Frontend für das Go Programm zu benutzen. Bei meinem Programmen lasse ich das Programm auch gerne die Webseiten für das Frontend generieren und gleichzeitig dient es als REST Endpunkt um dynamisch Daten zu liefern.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

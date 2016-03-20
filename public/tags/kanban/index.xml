@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Kanban on Jonas Blog</title>
+    <link>http://jonasriedel.de/tags/kanban/</link>
+    <description>Recent content in Kanban on Jonas Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>de-de</language>
+    <lastBuildDate>Mon, 25 Aug 2014 21:09:08 +0100</lastBuildDate>
+    <atom:link href="http://jonasriedel.de/tags/kanban/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>KARTEN FÜR KANBAN</title>
+      <link>http://jonasriedel.de/post/kanbancard/</link>
+      <pubDate>Mon, 25 Aug 2014 21:09:08 +0100</pubDate>
+      
+      <guid>http://jonasriedel.de/post/kanbancard/</guid>
+      <description>&lt;p&gt;Kanban ist ein Element der agilen Entwicklung. Es ist aber etwas &amp;ldquo;leichtgewichtiger&amp;rdquo; ans Scrum und ich denke das der Umstieg auf Kanban einfacher ist als der Umstieg auf Scrum. Bei Scrum gilt quasi der &amp;ldquo;alles oder nichts&amp;rdquo; Ansatz. Entweder man macht Scrum oder nicht. Kanban kann &amp;ldquo;sanft&amp;rdquo; eingeführt werden, indem man nacheinander einzelne Elemente von Kanban in die eigene Entwicklung übernimmt.&lt;/p&gt;
+
+&lt;p&gt;Als Kanban Neuling liest man am besten erstmal den passenden &lt;a href=&#34;http://de.wikipedia.org/wiki/Kanban_(Softwareentwicklung&#34;&gt;Wikipedia Artikel&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Da Kanban ja übersetzt (mehr oder weniger) &amp;ldquo;Karte&amp;rdquo; bedeutet, merkt man schon das die Kanban Karten ein zentrales Element sind&lt;/p&gt;
+
+&lt;p&gt;Um das erstellen der Kanban Karten zu vereinfachen (und weil ich mal wieder was mit PDF Erstellung machen wollte) habe ich ein kleines Tool geschrieben, mit dem man einfach Kanban Karten erzeugen und als PDF runter laden kann.&lt;/p&gt;
+
+&lt;p&gt;Hier der Link: &lt;a href=&#34;http://kanbancard.de&#34;&gt;http://kanbancard.de&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://jonasriedel.de/post/kanban.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

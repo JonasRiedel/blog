@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# website: http://ogp.me/ns/website#">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <meta name="description" content="">
+    <meta property="og:title" content="GO - GOLANG">
+    
+    <meta property="og:type" content="article">
+    <meta property="article:published_time" content="2014-05-24">
+    
+    <meta property="og:description" content="">
+    <meta property="og:url" content="http://jonasriedel.de/post/golang/">
+    <meta property="og:site_name" content="Jonas Blog">
+    
+    <meta property="og:tags" content="go">
+    
+    <meta name="generator" content="Hugo 0.15" />
+    <title>GO - GOLANG &middot; Jonas Blog</title>
+    
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css">
+    
+    <link rel="stylesheet" href="http://jonasriedel.de/css/style.css">
+    <link href="" rel="alternate" type="application/rss+xml" title="Jonas Blog" />
+
+    
+    
+
+<link rel="stylesheet" href="https://yandex.st/highlightjs/8.0/styles/default.min.css">
+<script src="https://yandex.st/highlightjs/8.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+</head>
+
+<nav class="navbar navbar-default navbar-fixed-top visible-xs">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			
+				<a class="navbar-brand" href="http://jonasriedel.de/">JONAS RIEDEL</a>
+			
+		</div>
+		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+			<ul class="nav navbar-nav">
+				
+				
+					<li><a href="http://jonasriedel.de/post/">Blog</a></li>
+				
+			</ul>
+		</div>
+	</div>
+</nav>
+<div class="container-fluid">
+	<div class="row">
+		<div id="menu" class="hidden-xs col-sm-4 col-md-3">
+	<div id="menu-content" class="vertical-align">
+		
+			<h1 class="text-center"><a href="http://jonasriedel.de/">JONAS RIEDEL</a></h1>
+		
+		
+		
+			<small class="text-center center-block">SOFTWARE PROFESSIONAL</small>
+		
+		
+		
+			<img id="profile-pic" src="http://jonasriedel.de//img/profil.jpg" alt="My Picture" class="img-circle center-block">
+		
+		<div id="social" class="text-center">
+			
+			
+			
+			<a href="mailto:jonasriedel70@gmail.com"><i class="fa fa-envelope-o fa-2x"></i></a>
+		</div>
+		<div id="links" class="text-center">
+			
+			
+				<a href="http://jonasriedel.de/post/">Blog</a>
+			
+		</div>
+	</div>
+</div>
+		<div id="content" class="col-xs-12 col-sm-8 col-md-9">
+			<div class="row">
+				<div id="post" class="col-sm-offset-1 col-sm-10 col-md-10 col-lg-8">
+
+<main>
+	<header>
+		<h1>GO - GOLANG</h1>
+	</header>
+
+	<article>
+		<p><a href="http://golang.org/">Go</a> (oder auch Golang) ist eine &ldquo;neue&rdquo; Programmiersprache, die von Google erfunden wurde. Genauer gesagt von Rob Pike und Ken Thomson, die beiden könnte man kennen, da sie auch UTF-8 entwickelt haben.</p>
+
+<p>Wie immer wenn eine neue Programmiersprache entwickelt wird, wurde auch hier versucht, aus den Problemen der aktuellen Sprachen zu lernen.
+So wurde Go zur &ldquo;Programmiersprache des 21. Jahrunderts&rdquo;, mit Garbage Collection, starker Typisierung, Nebenläufigkeit, &ldquo;Duck typing&rdquo; und hoher Internet Affinität.</p>
+
+<p>Ein einfaches &ldquo;Hello World&rdquo; Programm in Go:</p>
+
+<pre><code class="language-go">package main
+ 
+import &quot;fmt&quot;
+ 
+func main() {
+	fmt.Println(&quot;Hello World&quot;)
+}
+</code></pre>
+
+<p>Hier das ganze nochmal, nur das das Go Programm jetzt ein Webserver ist, der eine Webseite mit &ldquo;Hello World&rdquo; zeigt:</p>
+
+<pre><code class="language-go">package main
+
+import (
+    &quot;fmt&quot;
+    &quot;net/http&quot;
+)
+
+func handler(w http.ResponseWriter, r *http.Request) {
+    fmt.Fprintf(w, &quot;Hello World&quot;)
+}
+
+func main() {
+    http.HandleFunc(&quot;/&quot;, handler)
+    http.ListenAndServe(&quot;:8080&quot;, nil)
+}
+</code></pre>
+
+<p>Man sieht schon das es sehr einfach ist einen normalen Browser als Frontend für das Go Programm zu benutzen. Bei meinem Programmen lasse ich das Programm auch gerne die Webseiten für das Frontend generieren und gleichzeitig dient es als REST Endpunkt um dynamisch Daten zu liefern.</p>
+
+	</article>
+</main>
+
+<div id="bottom-nav" class="text-center center-block">
+	<a href=" http://jonasriedel.de/" class="btn btn-default"><i class="fa fa-home"></i> Home</a>
+</div>
+
+
+  <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'jonasriedel';
+    var disqus_identifier = 'http:\/\/jonasriedel.de\/post\/golang\/';
+    var disqus_title = 'GO - GOLANG';
+    var disqus_url = 'http:\/\/jonasriedel.de\/post\/golang\/';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+  </div>
+  
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'SHORT-CODE-HERE', 'auto');
+    ga('send', 'pageview');
+    window.baseURL = "http:\/\/jonasriedel.de\/";
+  </script>
+  
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.2/js/bootstrap.min.js"></script>
+  
+  <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/topojson/1.6.9/topojson.min.js"></script>
+  
+  
+  <script src="http://jonasriedel.de//js/App.js"></script>
+  
+</body>
+</html>

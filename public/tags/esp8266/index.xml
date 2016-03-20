@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Esp8266 on Jonas Blog</title>
+    <link>http://jonasriedel.de/tags/esp8266/</link>
+    <description>Recent content in Esp8266 on Jonas Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>de-de</language>
+    <lastBuildDate>Sun, 16 Aug 2015 20:18:19 +0100</lastBuildDate>
+    <atom:link href="http://jonasriedel.de/tags/esp8266/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>ESP8266 AM PC TESTEN</title>
+      <link>http://jonasriedel.de/post/espampc/</link>
+      <pubDate>Sun, 16 Aug 2015 20:18:19 +0100</pubDate>
+      
+      <guid>http://jonasriedel.de/post/espampc/</guid>
+      <description>&lt;p&gt;Habe eine ESP8266 (WLAN Chip mit serieller Schnittstelle) und wollte den schon mal am PC betreiben um zu sehen ob alles funktioniert. Der ESP benötigt 3.3V der USB2Serial Adapter (ein CP2102) kann aber auf seinem 3.3V Pin nicht genügend Strom liefern, deswegen habe ich ein LD33 benutzt um die 5V vom USB auf die benötigten 3.3V zu wandeln.&lt;/p&gt;
+
+&lt;p&gt;So siehts momentan aus&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://jonasriedel.de/post/ESP8266Variante1a.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Ein paar AT Befehle später hatte der ESP eine IP Adresse aus meinem WLAN:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;at 
+OK
+
+//resetten
+AT+RST 
+OK
+bBJG&amp;amp;SbrVHH7dNFJ$dVHJ
+[Vendor:www.ai-thinker.com Version:0.9.2.4]
+
+ready
+
+//passenden mode setzen
+AT+CWMODE=3 
+OK
+
+//wlans auflisten
+AT+CWLAP 
++CWLAP:(4,&amp;quot;sid&amp;quot;,-83,&amp;quot;9c:c7:xx:xx:xx:xx&amp;quot;,7)
+
+//in gewünschtes wlan einloggen
+AT+CWJAP=&amp;quot;sid&amp;quot;,&amp;quot;passwort&amp;quot; 
+OK
+
+//aktuelles (also verbundenes) wlan abfragen
+AT+CWJAP? 
++CWJAP:&amp;quot;sid&amp;quot;
+
+//status abfragen (2=verbunden mit wlan)
+AT+CIPSTATUS 
+STATUS:2
+OK
+
+//aktuelle IP abfragen
+AT+CIFSR 192.168.4.1
+192.168.178.73
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Hmm&amp;hellip;..das war ja einfach&amp;hellip;.als nächstes werde ich mal ein einfaches Programm auf den ESP laden.&lt;/p&gt;
+
+&lt;p&gt;Ach ja, eine Liste der AT Befehle gibt‘s &lt;a href=&#34;http://www.pighixxx.com/test/wp-content/uploads/2014/12/ESP8266Ref.pdf&#34;&gt;hier&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>ESP8266-01 MIT DHT22 UND THINGSPEAK ANBINDUNG</title>
+      <link>http://jonasriedel.de/post/espdhtthingspeak/</link>
+      <pubDate>Sat, 08 Aug 2015 22:13:07 +0100</pubDate>
+      
+      <guid>http://jonasriedel.de/post/espdhtthingspeak/</guid>
+      <description>
+
+&lt;p&gt;So, nachdem der ESP8266 generell funktioniert hat und sich per AT Befehl ansprechen ließ, wollte ich das Ding jetzt mal &amp;ldquo;richtig&amp;rdquo; programmieren.
+Dazu die Arduino IDE entsprechend &lt;a href=&#34;https://github.com/esp8266/Arduino&#34;&gt;dieser Anleitung&lt;/a&gt; heruntergeladen und installiert.&lt;/p&gt;
+
+&lt;p&gt;Dann wollte ich die Temperatur und Feutchtigkeit mit einem DHT22 messen und an einen Server im Internet schicken um sie grafisch darzustellen. Temperaturmessung mit einem DHT ist für mich quasi das &amp;ldquo;Hello World&amp;rdquo; für neue Boards.&lt;/p&gt;
+
+&lt;p&gt;Die finale Schaltung mit dem DHT22 und dem ESP8266-01 sieht dann wie folgt aus:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://jonasriedel.de/post/ESP8266_DHT22.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Dann habe ich den Code von dieser Seite genommen und etwas angepasst:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-c&#34;&gt;// Original Code from:
+// |www.arduinesp.com
+// |
+// |Plot DTH11 data on thingspeak.com using an ESP8266
+// |April 11 2015
+// |Author: Jeroen Beemster
+// |Website: www.arduinesp.com
+// modified by Jonas Riedel 
+// for use with DHT22
+
+#include &amp;lt;DHT.h&amp;gt;
+#include &amp;lt;ESP8266WiFi.h&amp;gt;
+ 
+// replace with your channel&#39;s thingspeak API key,
+String apiKey = &amp;quot;xxxxxxxxxxxxxxxx&amp;quot;; 
+// enter your own Wlan SSID
+const char* ssid = &amp;quot;xxxxx&amp;quot;;
+//your Wlan Password
+const char* password = &amp;quot;xxxxxxxxx&amp;quot;;
+ 
+const char* server = &amp;quot;api.thingspeak.com&amp;quot;;
+#define DHTPIN 2 // On ESP8266 01 this is the GPIO2
+ 
+DHT dht(DHTPIN, DHT22, 15); // Use DHT11 for a DHT11 Sensor :-)
+WiFiClient client;
+ 
+void setup() {
+  Serial.begin(115200);
+  delay(10);
+  dht.begin();
+ 
+  WiFi.begin(ssid, password);
+ 
+  Serial.println();
+  Serial.println();
+  Serial.print(&amp;quot;Connecting to &amp;quot;);
+  Serial.println(ssid);
+ 
+  WiFi.begin(ssid, password);
+ 
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(&amp;quot;.&amp;quot;); // loop until Wlan connected
+  }
+  Serial.println(&amp;quot;&amp;quot;);
+  Serial.println(&amp;quot;WiFi connected&amp;quot;);
+ 
+}
+ 
+void loop() {
+ 
+  float h = dht.readHumidity();
+  float t = dht.readTemperature();
+  if (isnan(h) || isnan(t)) {
+    Serial.println(&amp;quot;Failed to read from DHT sensor!&amp;quot;);
+    delay(500);
+    return;
+  }
+ 
+  if (client.connect(server,80)) {  
+    String postStr = apiKey;
+           postStr +=&amp;quot;&amp;amp;field1=&amp;quot;;
+           postStr += String(t);
+           postStr +=&amp;quot;&amp;amp;field2=&amp;quot;;
+           postStr += String(h);
+ 
+     client.print(&amp;quot;POST /update HTTP/1.1\n&amp;quot;);
+     client.print(&amp;quot;Host: api.thingspeak.com\n&amp;quot;);
+     client.print(&amp;quot;Connection: close\n&amp;quot;);
+     client.print(&amp;quot;X-THINGSPEAKAPIKEY: &amp;quot;+apiKey+&amp;quot;\n&amp;quot;);
+     client.print(&amp;quot;Content-Type: application/x-www-form-urlencoded\n&amp;quot;);
+     client.print(&amp;quot;Content-Length: &amp;quot;);
+     client.print(postStr.length());
+     client.print(&amp;quot;\n\n&amp;quot;);
+     client.print(postStr);
+ 
+     Serial.print(&amp;quot;Temperature: &amp;quot;);
+     Serial.print(t);
+     Serial.print(&amp;quot; degrees Celcius Humidity: &amp;quot;);
+     Serial.print(h);
+     Serial.println(&amp;quot;% send to Thingspeak&amp;quot;);
+  }
+  client.stop();
+ 
+  Serial.println(&amp;quot;Waiting...&amp;quot;);
+  // thingspeak needs minimum 15 sec delay between updates but 60s is a good choice here
+  delay(60000);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Entgegen diversen Webseiten, muss in der Arduino IDE als Board zwar &amp;ldquo;Generic ESP8266 Module&amp;rdquo; ausgewählt werden, aber was man als &amp;ldquo;Programmer&amp;rdquo; einstellt ist egal. Das Program muss dann mit dem Menüpunkt &amp;ldquo;Sketch-&amp;gt;Hochladen&amp;rdquo; auf den ESP8266 geladen werden, dann wird automatisch der unter &amp;ldquo;Werkzeug&amp;rdquo; gewählte COM Port (also der USB Anschluss) genutzt. Es muss also nicht &amp;ldquo;esptool&amp;rdquo; als Programmer eingestellt sein !!&lt;/p&gt;
+
+&lt;p&gt;Der eigentliche Trick ist, das der Pin GPIO0 des ESP8266-01 während des programmierens auf GND liegen muss.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://jonasriedel.de/post/ESP8266Flash.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Ich hab dazu einfach die USB Verbindung getrennt, dann den GPIO0 mit GND verbunden und dann wieder die USB Verbindung hergestellt. Dann in der Arduino IDE &amp;ldquo;Sketch-&amp;gt;Hochladen&amp;rdquo; auswählen und der Code wird kompiliert und hochgeladen. Dabei blinkt der ESP.
+Dann USB wieder trennen, GND von GPIO0 trennen und USB wieder ran. Dann sollte man über einen seriellen Monitor (ich nehme CoolTerm) die Ausgaben des ESPs sehen:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://jonasriedel.de/post/cooltermdht22.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Ich musste dabei immer das DTR Signal abschalten bevor was angezeigt wurde. Dafür in CoolTerm unten einfach auf die DTR LED klicken (wenn die denn leuchtet)&lt;/p&gt;
+
+&lt;p&gt;Wenn alles soweit funktioniert, kann man auf &lt;a href=&#34;https://thingspeak.com/&#34;&gt;Thingspeak&lt;/a&gt; die Daten sehen:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://jonasriedel.de/post/thingspeakdht22.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;update-vom-01-09-2015:10bd9a308c0ecd89aa184f00ed5e0a63&#34;&gt;Update vom 01.09.2015&lt;/h3&gt;
+
+&lt;p&gt;Ich habe die Schaltung mal mit 4 AA (nicht AAA wie in dem Bild) betrieben:&lt;/p&gt;
+
+&lt;p&gt;Wenn das ganze dauerhaft mit dem WLan verbunden ist und alle 5min Daten sendet, hat die Batterie (Eneloop) bei mir ca 46h gehalten.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

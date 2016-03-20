@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# website: http://ogp.me/ns/website#">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <meta name="description" content="">
+    <meta property="og:title" content="Jonas Blog">
+    
+    <meta property="og:type" content="website">
+    
+    <meta property="og:description" content="">
+    <meta property="og:url" content="http://jonasriedel.de/">
+    <meta property="og:site_name" content="Jonas Blog">
+    
+    <meta name="generator" content="Hugo 0.15" />
+    <title>Jonas Blog &middot; Jonas Blog</title>
+    
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css">
+    
+    <link rel="stylesheet" href="http://jonasriedel.de/css/style.css">
+    <link href="http://jonasriedel.de/index.xml" rel="alternate" type="application/rss+xml" title="Jonas Blog" />
+
+    
+    
+
+<link rel="stylesheet" href="https://yandex.st/highlightjs/8.0/styles/default.min.css">
+<script src="https://yandex.st/highlightjs/8.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+</head>
+
+<nav class="navbar navbar-default navbar-fixed-top visible-xs">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			
+				<a class="navbar-brand" href="http://jonasriedel.de/">JONAS RIEDEL</a>
+			
+		</div>
+		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+			<ul class="nav navbar-nav">
+				
+				
+					<li><a href="http://jonasriedel.de/post/">Blog</a></li>
+				
+			</ul>
+		</div>
+	</div>
+</nav>
+<div class="container-fluid">
+	<div class="row">
+		<div id="menu" class="hidden-xs col-sm-4 col-md-3">
+	<div id="menu-content" class="vertical-align">
+		
+			<h1 class="text-center"><a href="http://jonasriedel.de/">JONAS RIEDEL</a></h1>
+		
+		
+		
+			<small class="text-center center-block">SOFTWARE PROFESSIONAL</small>
+		
+		
+		
+			<img id="profile-pic" src="http://jonasriedel.de//img/profil.jpg" alt="My Picture" class="img-circle center-block">
+		
+		<div id="social" class="text-center">
+			
+			
+			
+			<a href="mailto:jonasriedel70@gmail.com"><i class="fa fa-envelope-o fa-2x"></i></a>
+		</div>
+		<div id="links" class="text-center">
+			
+			
+				<a href="http://jonasriedel.de/post/">Blog</a>
+			
+		</div>
+	</div>
+</div>
+		<div id="content" class="col-xs-12 col-sm-8 col-md-9">
+			<div class="row">
+				<div id="post" class="col-sm-offset-1 col-sm-10 col-md-10 col-lg-8">
+
+<header>
+	<h1>What I'm Thinking</h1>
+</header>
+
+
+	<div class="panel panel-default">
+	<div class="panel-header">
+		<h3>
+			<a href="http://jonasriedel.de/post/latissima/">SOLENOIDVENTIL FÜR DELONGHI LATISSIMA 680 TAUSCHEN</a>
+			<br>
+			<small>
+				20 March 2016
+			</small>
+		</h3>
+	</div>
+	<div class="panel-body">
+		Heute habe ich mal mit richtiger Hardware gearbeitet. Meine Kaffeemaschine von DeLonghi, die Lattissima EN680 hat keinen Milchschaum mehr gemacht. Der Dampf für diese Funktion geht durch ein sogenanntes Solenoidventil. Das war wohl defekt. Also bei ebay kurz ein neues geordert (Ich hatte die Version mit Metall-Anschlüssen). So, erstmal die Maschiene öffnen, ist relativ einfach, einfach von hinten die beiden Schrauben auf der rechten Seite (von hinten gesehen) entfernen. Schon liegen die Innereien vor einem: Das entsprechende Ventil sitzt auf rechts unten, hinter der Stelle wo der Milchbehälter hin gehört.
+		
+			... <a href="http://jonasriedel.de/post/latissima/">Read More</a>
+		
+	</div>
+	<div class="panel-footer">
+		
+		<small class="text-muted">
+			
+			
+				<a href="http://jonasriedel.de/tags/hardware"><span class="label label-success">hardware</span></a>
+			
+		</small>
+		
+	</div>
+</div>
+
+
+	<div class="panel panel-default">
+	<div class="panel-header">
+		<h3>
+			<a href="http://jonasriedel.de/post/systemd/">MIT SYSTEMD DOCKER CONTAINER STARTEN</a>
+			<br>
+			<small>
+				13 March 2016
+			</small>
+		</h3>
+	</div>
+	<div class="panel-body">
+		Auf meinem Raspberry Pi Docker Cluster habe ich den Service-Discocvery Dienst Consul als Container installiert. Damit das Teil jetzt auch nach einem reboot startet, wird jetzt ein systemd Service eingerichtet der Consul automatisch startet. Dazu legen wir als root die Datei /etc/systemd/system/consul.service an mit folgendem Inhalt: [Unit] Description=Consul After=docker.service Requires=docker.service [Service] TimeoutStartSec=0 ExecStart=/usr/bin/docker start consul ExecStop=/usr/bin/docker stop consul [Install] WantedBy=multi-user.target Hier beschreiben wir den Dienst &ldquo;Consul&rdquo; und sagen das er nach dem Docker-Service gestartet werden soll.
+		
+			... <a href="http://jonasriedel.de/post/systemd/">Read More</a>
+		
+	</div>
+	<div class="panel-footer">
+		
+	</div>
+</div>
+
+
+	<div class="panel panel-default">
+	<div class="panel-header">
+		<h3>
+			<a href="http://jonasriedel.de/post/datadog/">Datadog für Raspberry Pi</a>
+			<br>
+			<small>
+				11 March 2016
+			</small>
+		</h3>
+	</div>
+	<div class="panel-body">
+		Datadog ist eine Online-Monitoring Webseite. Dort kann man diverse Metriken visualisieren lassen. Im konstenlosen Basispaket sind bis zu 5 Hosts enthalten. Genau richtig für mein Raspberry Pi Cluster Da Datadog kein Binary für den Raspberry bereitstellt, nimmt man am besten die Python Variante. Dazu muss folgendes gemacht werden: sudo apt-get install sysstat Dann muss man in seinem Datadog Account bei &ldquo;Installation Instructions&rdquo; die Auswahl &ldquo;From Source&rdquo; treffen und den gezeigten Befehl in der Console ausführen.
+		
+			... <a href="http://jonasriedel.de/post/datadog/">Read More</a>
+		
+	</div>
+	<div class="panel-footer">
+		
+		<small class="text-muted">
+			
+			
+				<a href="http://jonasriedel.de/tags/datadog"><span class="label label-success">datadog</span></a>
+			
+				<a href="http://jonasriedel.de/tags/raspberry-pi"><span class="label label-success">raspberry pi</span></a>
+			
+		</small>
+		
+	</div>
+</div>
+
+
+	<div class="panel panel-default">
+	<div class="panel-header">
+		<h3>
+			<a href="http://jonasriedel.de/post/first/">Raspberry Pi 3 Docker Swarm Cluster</a>
+			<br>
+			<small>
+				5 March 2016
+			</small>
+		</h3>
+	</div>
+	<div class="panel-body">
+		Der Raspberry 3 hat ja noch mehr Power als die beiden Vorgänger und eignet sich damit noch besser als Docker Plattform. Mit mehreren Raspberrys kann man sich für schmales Geld einen schönen Cluster aufbauen. Ich habe dafür folgendes genommen: 3x Raspberry Pi 3 (Pollin) 1x 5-fach USB Netzteil (Amazon) 1x 5-fach Switch (Amazon) 3x Patchkabel 15cm (Amazon) Dann die &ldquo;normale&rdquo; Distribution von der Raspberry Seite herunter laden. Hab die &ldquo;Lite&rdquo; Version von Raspbian genommen, da ich keine grafische Oberfläche brauche und man so mehr Platz hat.
+		
+			... <a href="http://jonasriedel.de/post/first/">Read More</a>
+		
+	</div>
+	<div class="panel-footer">
+		
+		<small class="text-muted">
+			
+			
+				<a href="http://jonasriedel.de/tags/docker"><span class="label label-success">docker</span></a>
+			
+				<a href="http://jonasriedel.de/tags/raspberry-pi"><span class="label label-success">raspberry pi</span></a>
+			
+		</small>
+		
+	</div>
+</div>
+
+
+	<div class="panel panel-default">
+	<div class="panel-header">
+		<h3>
+			<a href="http://jonasriedel.de/post/crosscompiling/">CROSSCOMPILING MIT GO</a>
+			<br>
+			<small>
+				15 September 2015
+			</small>
+		</h3>
+	</div>
+	<div class="panel-body">
+		Mit go 1.5 ist das cross compilieren nochmal deutlich einfacher geworden, zumindest wenn kein cgo im Spiel ist. Aber auch sonst ist es nicht kompliziert. Bootstrapping Wenn man doch mal die go Toolchain bootstrappen muss geht das unter Windows wie folgt: Schritt-für-Schritt-Anleitung Gcc für Windows runterladen z.B. MinGW: hier https://sourceforge.net/projects/mingw/files/latest/download Gcc über GUI installieren Path für c:\MinGW\bin setzen Nach c:\Go\src wechseln Folgendes ausführen (Erzeugt Bootstrap für Linux 32 bit): env
+		
+			... <a href="http://jonasriedel.de/post/crosscompiling/">Read More</a>
+		
+	</div>
+	<div class="panel-footer">
+		
+		<small class="text-muted">
+			
+			
+				<a href="http://jonasriedel.de/tags/go"><span class="label label-success">go</span></a>
+			
+		</small>
+		
+	</div>
+</div>
+
+
+
+<div class="text-center center-block">
+	
+    
+    <ul class="pagination">
+        
+        <li>
+            <a href="/" aria-label="First"><span aria-hidden="true">&laquo;&laquo;</span></a>
+        </li>
+        
+        <li
+        class="disabled">
+        <a href="" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+        </li>
+        
+        <li
+        class="active"><a href="/">1</a></li>
+        
+        <li
+        ><a href="/page/2/">2</a></li>
+        
+        <li
+        ><a href="/page/3/">3</a></li>
+        
+        <li
+        >
+        <a href="/page/2/" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+        </li>
+        
+        <li>
+            <a href="/page/3/" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
+        </li>
+        
+    </ul>
+    
+</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+  </div>
+  
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'SHORT-CODE-HERE', 'auto');
+    ga('send', 'pageview');
+    window.baseURL = "http:\/\/jonasriedel.de\/";
+  </script>
+  
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.2/js/bootstrap.min.js"></script>
+  
+  <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/topojson/1.6.9/topojson.min.js"></script>
+  
+  
+  <script src="http://jonasriedel.de//js/App.js"></script>
+  
+</body>
+</html>

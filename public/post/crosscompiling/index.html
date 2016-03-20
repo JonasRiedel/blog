@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# website: http://ogp.me/ns/website#">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <meta name="description" content="">
+    <meta property="og:title" content="CROSSCOMPILING MIT GO">
+    
+    <meta property="og:type" content="article">
+    <meta property="article:published_time" content="2015-09-15">
+    
+    <meta property="og:description" content="">
+    <meta property="og:url" content="http://jonasriedel.de/post/crosscompiling/">
+    <meta property="og:site_name" content="Jonas Blog">
+    
+    <meta property="og:tags" content="go">
+    
+    <meta name="generator" content="Hugo 0.15" />
+    <title>CROSSCOMPILING MIT GO &middot; Jonas Blog</title>
+    
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css">
+    
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.7/styles/default.min.css">
+    
+    <link rel="stylesheet" href="http://jonasriedel.de/css/style.css">
+    <link href="" rel="alternate" type="application/rss+xml" title="Jonas Blog" />
+
+    
+    
+
+<link rel="stylesheet" href="https://yandex.st/highlightjs/8.0/styles/default.min.css">
+<script src="https://yandex.st/highlightjs/8.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+</head>
+
+<nav class="navbar navbar-default navbar-fixed-top visible-xs">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			
+				<a class="navbar-brand" href="http://jonasriedel.de/">JONAS RIEDEL</a>
+			
+		</div>
+		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+			<ul class="nav navbar-nav">
+				
+				
+					<li><a href="http://jonasriedel.de/post/">Blog</a></li>
+				
+			</ul>
+		</div>
+	</div>
+</nav>
+<div class="container-fluid">
+	<div class="row">
+		<div id="menu" class="hidden-xs col-sm-4 col-md-3">
+	<div id="menu-content" class="vertical-align">
+		
+			<h1 class="text-center"><a href="http://jonasriedel.de/">JONAS RIEDEL</a></h1>
+		
+		
+		
+			<small class="text-center center-block">SOFTWARE PROFESSIONAL</small>
+		
+		
+		
+			<img id="profile-pic" src="http://jonasriedel.de//img/profil.jpg" alt="My Picture" class="img-circle center-block">
+		
+		<div id="social" class="text-center">
+			
+			
+			
+			<a href="mailto:jonasriedel70@gmail.com"><i class="fa fa-envelope-o fa-2x"></i></a>
+		</div>
+		<div id="links" class="text-center">
+			
+			
+				<a href="http://jonasriedel.de/post/">Blog</a>
+			
+		</div>
+	</div>
+</div>
+		<div id="content" class="col-xs-12 col-sm-8 col-md-9">
+			<div class="row">
+				<div id="post" class="col-sm-offset-1 col-sm-10 col-md-10 col-lg-8">
+
+<main>
+	<header>
+		<h1>CROSSCOMPILING MIT GO</h1>
+	</header>
+
+	<article>
+		
+
+<p>Mit go 1.5 ist das cross compilieren nochmal deutlich einfacher geworden, zumindest wenn kein cgo im Spiel ist. Aber auch sonst ist es nicht kompliziert.</p>
+
+<h2 id="bootstrapping:a2bea2f220fcf8042f6ccefcd0dee60f">Bootstrapping</h2>
+
+<p>Wenn man doch mal die go Toolchain bootstrappen muss geht das unter Windows wie folgt:</p>
+
+<h2 id="schritt-für-schritt-anleitung:a2bea2f220fcf8042f6ccefcd0dee60f">Schritt-für-Schritt-Anleitung</h2>
+
+<p>Gcc für Windows runterladen z.B. MinGW: hier <a href="https://sourceforge.net/projects/mingw/files/latest/download">https://sourceforge.net/projects/mingw/files/latest/download</a></p>
+
+<p>Gcc über GUI installieren</p>
+
+<p>Path für c:\MinGW\bin setzen</p>
+
+<p>Nach c:\Go\src wechseln</p>
+
+<p>Folgendes ausführen (Erzeugt Bootstrap für Linux 32 bit):</p>
+
+<pre><code class="language-bash">	env CGO_ENABLED=1 GOROOT_BOOTSTRAP=c:\\Go GOOS=linux GOARCH=386 make.bat --no-clean
+</code></pre>
+
+<p>Folgendes ausfürhren (Erzeugt Bootstrap für Linux 64 bit):</p>
+
+<pre><code class="language-bash">	env CGO_ENABLED=1 GOROOT_BOOTSTRAP=c:\\Go GOOS=linux GOARCH=amd64 make.bat --no-clean
+</code></pre>
+
+<p>Jetzt kann man wie folgt cross compilen:</p>
+
+<p><strong>Ziel: Linux 32bit</strong></p>
+
+<pre><code>GOOS=linux GOARCH=386 go build
+</code></pre>
+
+<p>Ergebnis:</p>
+
+<pre><code>$ file goCsv2Xlsx
+goCsv2Xlsx32: ELF 32-bit LSB executable, Intel 80386, version 1 (SYSV), statically linked, not stripped
+</code></pre>
+
+<p><strong>Ziel: Linux64bit</strong></p>
+
+<pre><code>GOOS=linux GOARCH=amd64 go build
+</code></pre>
+
+<p>Ergebnis:</p>
+
+<pre><code>$ file goCsv2Xlsx
+goCsv2Xlsx: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), statically linked, not stripped
+</code></pre>
+
+<p>Generell werden folgende Zielarchitekturen unterstützt:</p>
+
+<table>
+<thead>
+<tr>
+<th>$GOOS</th>
+<th>$GOARCH</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>darwin</td>
+<td>386</td>
+</tr>
+
+<tr>
+<td>darwin</td>
+<td>amd64</td>
+</tr>
+
+<tr>
+<td>darwin</td>
+<td>arm</td>
+</tr>
+
+<tr>
+<td>darwin</td>
+<td>arm64</td>
+</tr>
+
+<tr>
+<td>dragonfly</td>
+<td>amd64</td>
+</tr>
+
+<tr>
+<td>freebsd</td>
+<td>386</td>
+</tr>
+
+<tr>
+<td>freebsd</td>
+<td>amd64</td>
+</tr>
+
+<tr>
+<td>freebsd</td>
+<td>arm</td>
+</tr>
+
+<tr>
+<td>linux</td>
+<td>386</td>
+</tr>
+
+<tr>
+<td>linux</td>
+<td>amd64</td>
+</tr>
+
+<tr>
+<td>linux</td>
+<td>arm</td>
+</tr>
+
+<tr>
+<td>linux</td>
+<td>arm64</td>
+</tr>
+
+<tr>
+<td>linux</td>
+<td>ppc64</td>
+</tr>
+
+<tr>
+<td>linux</td>
+<td>ppc64le</td>
+</tr>
+
+<tr>
+<td>netbsd</td>
+<td>386</td>
+</tr>
+
+<tr>
+<td>netbsd</td>
+<td>amd64</td>
+</tr>
+
+<tr>
+<td>netbsd</td>
+<td>arm</td>
+</tr>
+
+<tr>
+<td>openbsd</td>
+<td>386</td>
+</tr>
+
+<tr>
+<td>openbsd</td>
+<td>amd64</td>
+</tr>
+
+<tr>
+<td>openbsd</td>
+<td>arm</td>
+</tr>
+
+<tr>
+<td>plan9</td>
+<td>386</td>
+</tr>
+
+<tr>
+<td>plan9</td>
+<td>amd64</td>
+</tr>
+
+<tr>
+<td>solaris</td>
+<td>amd64</td>
+</tr>
+
+<tr>
+<td>windows</td>
+<td>386</td>
+</tr>
+
+<tr>
+<td>windows</td>
+<td>amd64</td>
+</tr>
+</tbody>
+</table>
+
+	</article>
+</main>
+
+<div id="bottom-nav" class="text-center center-block">
+	<a href=" http://jonasriedel.de/" class="btn btn-default"><i class="fa fa-home"></i> Home</a>
+</div>
+
+
+  <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'jonasriedel';
+    var disqus_identifier = 'http:\/\/jonasriedel.de\/post\/crosscompiling\/';
+    var disqus_title = 'CROSSCOMPILING MIT GO';
+    var disqus_url = 'http:\/\/jonasriedel.de\/post\/crosscompiling\/';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+  </div>
+  
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'SHORT-CODE-HERE', 'auto');
+    ga('send', 'pageview');
+    window.baseURL = "http:\/\/jonasriedel.de\/";
+  </script>
+  
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.2/js/bootstrap.min.js"></script>
+  
+  <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/topojson/1.6.9/topojson.min.js"></script>
+  
+  
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.7/highlight.min.js"></script>
+  
+  <script src="http://jonasriedel.de//js/App.js"></script>
+  
+</body>
+</html>

@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# website: http://ogp.me/ns/website#">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <meta name="description" content="">
+    <meta property="og:title" content="ESP8266-01 MIT DHT22 UND THINGSPEAK ANBINDUNG">
+    
+    <meta property="og:type" content="article">
+    <meta property="article:published_time" content="2015-08-08">
+    
+    <meta property="og:description" content="">
+    <meta property="og:url" content="http://jonasriedel.de/post/espdhtthingspeak/">
+    <meta property="og:site_name" content="Jonas Blog">
+    
+    <meta property="og:tags" content="esp8266">
+    
+    <meta property="og:tags" content="dht22">
+    
+    <meta name="generator" content="Hugo 0.15" />
+    <title>ESP8266-01 MIT DHT22 UND THINGSPEAK ANBINDUNG &middot; Jonas Blog</title>
+    
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css">
+    
+    <link rel="stylesheet" href="http://jonasriedel.de/css/style.css">
+    <link href="" rel="alternate" type="application/rss+xml" title="Jonas Blog" />
+
+    
+    
+
+<link rel="stylesheet" href="https://yandex.st/highlightjs/8.0/styles/default.min.css">
+<script src="https://yandex.st/highlightjs/8.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+</head>
+
+<nav class="navbar navbar-default navbar-fixed-top visible-xs">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			
+				<a class="navbar-brand" href="http://jonasriedel.de/">JONAS RIEDEL</a>
+			
+		</div>
+		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+			<ul class="nav navbar-nav">
+				
+				
+					<li><a href="http://jonasriedel.de/post/">Blog</a></li>
+				
+			</ul>
+		</div>
+	</div>
+</nav>
+<div class="container-fluid">
+	<div class="row">
+		<div id="menu" class="hidden-xs col-sm-4 col-md-3">
+	<div id="menu-content" class="vertical-align">
+		
+			<h1 class="text-center"><a href="http://jonasriedel.de/">JONAS RIEDEL</a></h1>
+		
+		
+		
+			<small class="text-center center-block">SOFTWARE PROFESSIONAL</small>
+		
+		
+		
+			<img id="profile-pic" src="http://jonasriedel.de//img/profil.jpg" alt="My Picture" class="img-circle center-block">
+		
+		<div id="social" class="text-center">
+			
+			
+			
+			<a href="mailto:jonasriedel70@gmail.com"><i class="fa fa-envelope-o fa-2x"></i></a>
+		</div>
+		<div id="links" class="text-center">
+			
+			
+				<a href="http://jonasriedel.de/post/">Blog</a>
+			
+		</div>
+	</div>
+</div>
+		<div id="content" class="col-xs-12 col-sm-8 col-md-9">
+			<div class="row">
+				<div id="post" class="col-sm-offset-1 col-sm-10 col-md-10 col-lg-8">
+
+<main>
+	<header>
+		<h1>ESP8266-01 MIT DHT22 UND THINGSPEAK ANBINDUNG</h1>
+	</header>
+
+	<article>
+		
+
+<p>So, nachdem der ESP8266 generell funktioniert hat und sich per AT Befehl ansprechen ließ, wollte ich das Ding jetzt mal &ldquo;richtig&rdquo; programmieren.
+Dazu die Arduino IDE entsprechend <a href="https://github.com/esp8266/Arduino">dieser Anleitung</a> heruntergeladen und installiert.</p>
+
+<p>Dann wollte ich die Temperatur und Feutchtigkeit mit einem DHT22 messen und an einen Server im Internet schicken um sie grafisch darzustellen. Temperaturmessung mit einem DHT ist für mich quasi das &ldquo;Hello World&rdquo; für neue Boards.</p>
+
+<p>Die finale Schaltung mit dem DHT22 und dem ESP8266-01 sieht dann wie folgt aus:</p>
+
+<p><img src="/post/ESP8266_DHT22.png" alt="" /></p>
+
+<p>Dann habe ich den Code von dieser Seite genommen und etwas angepasst:</p>
+
+<pre><code class="language-c">// Original Code from:
+// |www.arduinesp.com
+// |
+// |Plot DTH11 data on thingspeak.com using an ESP8266
+// |April 11 2015
+// |Author: Jeroen Beemster
+// |Website: www.arduinesp.com
+// modified by Jonas Riedel 
+// for use with DHT22
+
+#include &lt;DHT.h&gt;
+#include &lt;ESP8266WiFi.h&gt;
+ 
+// replace with your channel's thingspeak API key,
+String apiKey = &quot;xxxxxxxxxxxxxxxx&quot;; 
+// enter your own Wlan SSID
+const char* ssid = &quot;xxxxx&quot;;
+//your Wlan Password
+const char* password = &quot;xxxxxxxxx&quot;;
+ 
+const char* server = &quot;api.thingspeak.com&quot;;
+#define DHTPIN 2 // On ESP8266 01 this is the GPIO2
+ 
+DHT dht(DHTPIN, DHT22, 15); // Use DHT11 for a DHT11 Sensor :-)
+WiFiClient client;
+ 
+void setup() {
+  Serial.begin(115200);
+  delay(10);
+  dht.begin();
+ 
+  WiFi.begin(ssid, password);
+ 
+  Serial.println();
+  Serial.println();
+  Serial.print(&quot;Connecting to &quot;);
+  Serial.println(ssid);
+ 
+  WiFi.begin(ssid, password);
+ 
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(&quot;.&quot;); // loop until Wlan connected
+  }
+  Serial.println(&quot;&quot;);
+  Serial.println(&quot;WiFi connected&quot;);
+ 
+}
+ 
+void loop() {
+ 
+  float h = dht.readHumidity();
+  float t = dht.readTemperature();
+  if (isnan(h) || isnan(t)) {
+    Serial.println(&quot;Failed to read from DHT sensor!&quot;);
+    delay(500);
+    return;
+  }
+ 
+  if (client.connect(server,80)) {  
+    String postStr = apiKey;
+           postStr +=&quot;&amp;field1=&quot;;
+           postStr += String(t);
+           postStr +=&quot;&amp;field2=&quot;;
+           postStr += String(h);
+ 
+     client.print(&quot;POST /update HTTP/1.1\n&quot;);
+     client.print(&quot;Host: api.thingspeak.com\n&quot;);
+     client.print(&quot;Connection: close\n&quot;);
+     client.print(&quot;X-THINGSPEAKAPIKEY: &quot;+apiKey+&quot;\n&quot;);
+     client.print(&quot;Content-Type: application/x-www-form-urlencoded\n&quot;);
+     client.print(&quot;Content-Length: &quot;);
+     client.print(postStr.length());
+     client.print(&quot;\n\n&quot;);
+     client.print(postStr);
+ 
+     Serial.print(&quot;Temperature: &quot;);
+     Serial.print(t);
+     Serial.print(&quot; degrees Celcius Humidity: &quot;);
+     Serial.print(h);
+     Serial.println(&quot;% send to Thingspeak&quot;);
+  }
+  client.stop();
+ 
+  Serial.println(&quot;Waiting...&quot;);
+  // thingspeak needs minimum 15 sec delay between updates but 60s is a good choice here
+  delay(60000);
+}
+</code></pre>
+
+<p>Entgegen diversen Webseiten, muss in der Arduino IDE als Board zwar &ldquo;Generic ESP8266 Module&rdquo; ausgewählt werden, aber was man als &ldquo;Programmer&rdquo; einstellt ist egal. Das Program muss dann mit dem Menüpunkt &ldquo;Sketch-&gt;Hochladen&rdquo; auf den ESP8266 geladen werden, dann wird automatisch der unter &ldquo;Werkzeug&rdquo; gewählte COM Port (also der USB Anschluss) genutzt. Es muss also nicht &ldquo;esptool&rdquo; als Programmer eingestellt sein !!</p>
+
+<p>Der eigentliche Trick ist, das der Pin GPIO0 des ESP8266-01 während des programmierens auf GND liegen muss.</p>
+
+<p><img src="/post/ESP8266Flash.png" alt="" /></p>
+
+<p>Ich hab dazu einfach die USB Verbindung getrennt, dann den GPIO0 mit GND verbunden und dann wieder die USB Verbindung hergestellt. Dann in der Arduino IDE &ldquo;Sketch-&gt;Hochladen&rdquo; auswählen und der Code wird kompiliert und hochgeladen. Dabei blinkt der ESP.
+Dann USB wieder trennen, GND von GPIO0 trennen und USB wieder ran. Dann sollte man über einen seriellen Monitor (ich nehme CoolTerm) die Ausgaben des ESPs sehen:</p>
+
+<p><img src="/post/cooltermdht22.png" alt="" /></p>
+
+<p>Ich musste dabei immer das DTR Signal abschalten bevor was angezeigt wurde. Dafür in CoolTerm unten einfach auf die DTR LED klicken (wenn die denn leuchtet)</p>
+
+<p>Wenn alles soweit funktioniert, kann man auf <a href="https://thingspeak.com/">Thingspeak</a> die Daten sehen:</p>
+
+<p><img src="/post/thingspeakdht22.png" alt="" /></p>
+
+<h3 id="update-vom-01-09-2015:10bd9a308c0ecd89aa184f00ed5e0a63">Update vom 01.09.2015</h3>
+
+<p>Ich habe die Schaltung mal mit 4 AA (nicht AAA wie in dem Bild) betrieben:</p>
+
+<p>Wenn das ganze dauerhaft mit dem WLan verbunden ist und alle 5min Daten sendet, hat die Batterie (Eneloop) bei mir ca 46h gehalten.</p>
+
+	</article>
+</main>
+
+<div id="bottom-nav" class="text-center center-block">
+	<a href=" http://jonasriedel.de/" class="btn btn-default"><i class="fa fa-home"></i> Home</a>
+</div>
+
+
+  <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'jonasriedel';
+    var disqus_identifier = 'http:\/\/jonasriedel.de\/post\/espdhtthingspeak\/';
+    var disqus_title = 'ESP8266-01 MIT DHT22 UND THINGSPEAK ANBINDUNG';
+    var disqus_url = 'http:\/\/jonasriedel.de\/post\/espdhtthingspeak\/';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+  </div>
+  
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'SHORT-CODE-HERE', 'auto');
+    ga('send', 'pageview');
+    window.baseURL = "http:\/\/jonasriedel.de\/";
+  </script>
+  
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.2/js/bootstrap.min.js"></script>
+  
+  <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/topojson/1.6.9/topojson.min.js"></script>
+  
+  
+  <script src="http://jonasriedel.de//js/App.js"></script>
+  
+</body>
+</html>
