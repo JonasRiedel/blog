@@ -11,7 +11,7 @@ Heute habe ich mal mit *richtiger* Hardware gearbeitet. Meine Kaffeemaschine von
 ![](/post/latissima_aussen.jpg)
 
 Der Dampf für diese Funktion geht durch ein sogenanntes Solenoidventil. Das war wohl defekt. Also bei [ebay](http://www.ebay.de/itm/370615009376) kurz ein neues geordert (Ich hatte die Version mit Metall-Anschlüssen).
-So, erstmal die Maschiene öffnen, ist relativ einfach, einfach von hinten die beiden Schrauben auf der rechten Seite (von hinten gesehen) entfernen. Schon liegen die Innereien vor einem:
+So, jetzt aber erstmal die Maschine öffnen,das ist eigentlich relativ einfach, man muss nur von hinten die beiden Schrauben auf der rechten Seite  entfernen. Schon liegen die Innereien vor einem:
 
 ![](/post/latissima.jpg)
 
