@@ -4,21 +4,26 @@
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
     <meta name="description" content="">
-    <meta property="og:title" content="Go">
+    <meta property="og:title" content="TLS HTTP SERVER IN GO MIT EIGENEM ZERTIFIKAT">
     
-    <meta property="og:type" content="website">
+    <meta property="og:type" content="article">
+    <meta property="article:published_time" content="2016-03-28">
     
     <meta property="og:description" content="">
-    <meta property="og:url" content="http://jonasriedel.de/tags/go/">
+    <meta property="og:url" content="http://jonasriedel.de/post/gotlsstart/">
     <meta property="og:site_name" content="Jonas Blog">
     
+    <meta property="og:tags" content="go">
+    
+    <meta property="og:tags" content="ssl">
+    
     <meta name="generator" content="Hugo 0.15" />
-    <title>Go &middot; Jonas Blog</title>
+    <title>TLS HTTP SERVER IN GO MIT EIGENEM ZERTIFIKAT &middot; Jonas Blog</title>
     
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css">
     
     <link rel="stylesheet" href="http://jonasriedel.de/css/style.css">
-    <link href="http://jonasriedel.de/tags/go/index.xml" rel="alternate" type="application/rss+xml" title="Jonas Blog" />
+    <link href="" rel="alternate" type="application/rss+xml" title="Jonas Blog" />
 
     
     
@@ -85,22 +90,71 @@
 			<div class="row">
 				<div id="post" class="col-sm-offset-1 col-sm-10 col-md-10 col-lg-8">
 
-<article>
+<main>
 	<header>
-		<h1>Go</a></h1>
+		<h1>TLS HTTP SERVER IN GO MIT EIGENEM ZERTIFIKAT</h1>
 	</header>
-<ul>
-	
-	<li><a href="http://jonasriedel.de/post/gotlsstart/">TLS HTTP SERVER IN GO MIT EIGENEM ZERTIFIKAT</a></li>
-	
-	<li><a href="http://jonasriedel.de/post/crosscompiling/">CROSSCOMPILING MIT GO</a></li>
-	
-	<li><a href="http://jonasriedel.de/post/bulkmunzee/">BULK MUNZEE GENERATOR</a></li>
-	
-	<li><a href="http://jonasriedel.de/post/golang/">GO - GOLANG</a></li>
-	
-</ul>
-</article>
+
+	<article>
+		<p>HTTPS als Server in go zu nutzen ist eigentlich ganz einfach, trotzdem vergesse ich auch gerne welche Schritte dazu notwendig sind. Hier jetzt ein Blog Eintrag als Gedächnisstütze.</p>
+
+<p>Um HTTPS nutzen zu können muss man ein Zertifikat erstellen. Unter Linux ist das schnell erledigt.
+Zuerst den private key erzeugen:</p>
+
+<pre><code class="language-bash">openssl genrsa -out server.key 2048
+</code></pre>
+
+<p>Dann damit das eigentliche Zertifikat:</p>
+
+<pre><code class="language-bash">openssl req -new -x509 -key server.key -out server.pem -days 3650
+</code></pre>
+
+<p>So, jetzt nur noch einen kleines Program mit dem Webserver:</p>
+
+<pre><code class="language-go">package main
+
+import (
+	&quot;fmt&quot;
+	&quot;net/http&quot;
+)
+
+
+func handler(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, &quot;Hello world&quot;!)
+}
+
+func main() {
+	http.HandleFunc(&quot;/&quot;, handler)
+	http.ListenAndServeTLS(&quot;:8080&quot;, &quot;server.pem&quot;, &quot;server.key&quot;, nil)
+}
+</code></pre>
+
+<p>Unter <a href="https://127.0.0.1:8080/">https://127.0.0.1:8080/</a> gibts jetzt ein TLS verschlüsseltes &ldquo;Hello World!&rdquo;</p>
+
+	</article>
+</main>
+
+<div id="bottom-nav" class="text-center center-block">
+	<a href=" http://jonasriedel.de/" class="btn btn-default"><i class="fa fa-home"></i> Home</a>
+</div>
+
+
+  <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'jonasriedel';
+    var disqus_identifier = 'http:\/\/jonasriedel.de\/post\/gotlsstart\/';
+    var disqus_title = 'TLS HTTP SERVER IN GO MIT EIGENEM ZERTIFIKAT';
+    var disqus_url = 'http:\/\/jonasriedel.de\/post\/gotlsstart\/';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
 
 						</div>
 					</div>

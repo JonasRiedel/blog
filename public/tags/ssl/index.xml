@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Ssl on Jonas Blog</title>
+    <link>http://jonasriedel.de/tags/ssl/</link>
+    <description>Recent content in Ssl on Jonas Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>de-de</language>
+    <lastBuildDate>Mon, 28 Mar 2016 22:22:11 +0200</lastBuildDate>
+    <atom:link href="http://jonasriedel.de/tags/ssl/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>TLS HTTP SERVER IN GO MIT EIGENEM ZERTIFIKAT</title>
+      <link>http://jonasriedel.de/post/gotlsstart/</link>
+      <pubDate>Mon, 28 Mar 2016 22:22:11 +0200</pubDate>
+      
+      <guid>http://jonasriedel.de/post/gotlsstart/</guid>
+      <description>&lt;p&gt;HTTPS als Server in go zu nutzen ist eigentlich ganz einfach, trotzdem vergesse ich auch gerne welche Schritte dazu notwendig sind. Hier jetzt ein Blog Eintrag als Gedächnisstütze.&lt;/p&gt;
+
+&lt;p&gt;Um HTTPS nutzen zu können muss man ein Zertifikat erstellen. Unter Linux ist das schnell erledigt.
+Zuerst den private key erzeugen:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;openssl genrsa -out server.key 2048
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Dann damit das eigentliche Zertifikat:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;openssl req -new -x509 -key server.key -out server.pem -days 3650
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;So, jetzt nur noch einen kleines Program mit dem Webserver:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;package main
+
+import (
+	&amp;quot;fmt&amp;quot;
+	&amp;quot;net/http&amp;quot;
+)
+
+
+func handler(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, &amp;quot;Hello world&amp;quot;!)
+}
+
+func main() {
+	http.HandleFunc(&amp;quot;/&amp;quot;, handler)
+	http.ListenAndServeTLS(&amp;quot;:8080&amp;quot;, &amp;quot;server.pem&amp;quot;, &amp;quot;server.key&amp;quot;, nil)
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Unter &lt;a href=&#34;https://127.0.0.1:8080/&#34;&gt;https://127.0.0.1:8080/&lt;/a&gt; gibts jetzt ein TLS verschlüsseltes &amp;ldquo;Hello World!&amp;rdquo;&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

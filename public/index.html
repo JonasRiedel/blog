@@ -93,6 +93,37 @@
 	<div class="panel panel-default">
 	<div class="panel-header">
 		<h3>
+			<a href="http://jonasriedel.de/post/gotlsstart/">TLS HTTP SERVER IN GO MIT EIGENEM ZERTIFIKAT</a>
+			<br>
+			<small>
+				28 March 2016
+			</small>
+		</h3>
+	</div>
+	<div class="panel-body">
+		HTTPS als Server in go zu nutzen ist eigentlich ganz einfach, trotzdem vergesse ich auch gerne welche Schritte dazu notwendig sind. Hier jetzt ein Blog Eintrag als Gedächnisstütze. Um HTTPS nutzen zu können muss man ein Zertifikat erstellen. Unter Linux ist das schnell erledigt. Zuerst den private key erzeugen: openssl genrsa -out server.key 2048 Dann damit das eigentliche Zertifikat: openssl req -new -x509 -key server.key -out server.pem -days 3650 So,
+		
+			... <a href="http://jonasriedel.de/post/gotlsstart/">Read More</a>
+		
+	</div>
+	<div class="panel-footer">
+		
+		<small class="text-muted">
+			
+			
+				<a href="http://jonasriedel.de/tags/go"><span class="label label-success">go</span></a>
+			
+				<a href="http://jonasriedel.de/tags/ssl"><span class="label label-success">ssl</span></a>
+			
+		</small>
+		
+	</div>
+</div>
+
+
+	<div class="panel panel-default">
+	<div class="panel-header">
+		<h3>
 			<a href="http://jonasriedel.de/post/latissima/">SOLENOIDVENTIL FÜR DELONGHI LATTISSIMA 680 TAUSCHEN</a>
 			<br>
 			<small>
@@ -136,6 +167,15 @@
 		
 	</div>
 	<div class="panel-footer">
+		
+		<small class="text-muted">
+			
+			
+				<a href="http://jonasriedel.de/tags/systemd"><span class="label label-success">systemd</span></a>
+			
+				<a href="http://jonasriedel.de/tags/docker"><span class="label label-success">docker</span></a>
+			
+		</small>
 		
 	</div>
 </div>
@@ -196,35 +236,6 @@
 				<a href="http://jonasriedel.de/tags/docker"><span class="label label-success">docker</span></a>
 			
 				<a href="http://jonasriedel.de/tags/raspberry-pi"><span class="label label-success">raspberry pi</span></a>
-			
-		</small>
-		
-	</div>
-</div>
-
-
-	<div class="panel panel-default">
-	<div class="panel-header">
-		<h3>
-			<a href="http://jonasriedel.de/post/crosscompiling/">CROSSCOMPILING MIT GO</a>
-			<br>
-			<small>
-				15 September 2015
-			</small>
-		</h3>
-	</div>
-	<div class="panel-body">
-		Mit go 1.5 ist das cross compilieren nochmal deutlich einfacher geworden, zumindest wenn kein cgo im Spiel ist. Aber auch sonst ist es nicht kompliziert. Bootstrapping Wenn man doch mal die go Toolchain bootstrappen muss geht das unter Windows wie folgt: Schritt-für-Schritt-Anleitung Gcc für Windows runterladen z.B. MinGW: hier https://sourceforge.net/projects/mingw/files/latest/download Gcc über GUI installieren Path für c:\MinGW\bin setzen Nach c:\Go\src wechseln Folgendes ausführen (Erzeugt Bootstrap für Linux 32 bit): env
-		
-			... <a href="http://jonasriedel.de/post/crosscompiling/">Read More</a>
-		
-	</div>
-	<div class="panel-footer">
-		
-		<small class="text-muted">
-			
-			
-				<a href="http://jonasriedel.de/tags/go"><span class="label label-success">go</span></a>
 			
 		</small>
 		

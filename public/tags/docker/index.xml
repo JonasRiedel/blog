@@ -6,8 +6,48 @@
     <description>Recent content in Docker on Jonas Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>de-de</language>
-    <lastBuildDate>Sat, 05 Mar 2016 15:40:59 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 13 Mar 2016 18:08:33 +0100</lastBuildDate>
     <atom:link href="http://jonasriedel.de/tags/docker/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>MIT SYSTEMD DOCKER CONTAINER STARTEN</title>
+      <link>http://jonasriedel.de/post/systemd/</link>
+      <pubDate>Sun, 13 Mar 2016 18:08:33 +0100</pubDate>
+      
+      <guid>http://jonasriedel.de/post/systemd/</guid>
+      <description>&lt;p&gt;Auf meinem &lt;a href=&#34;http://jonasriedel.de/post/first&#34;&gt;Raspberry Pi Docker Cluster&lt;/a&gt; habe ich den Service-Discocvery Dienst Consul als Container installiert. Damit das Teil jetzt auch nach einem reboot startet, wird jetzt ein systemd Service eingerichtet der Consul automatisch startet.&lt;/p&gt;
+
+&lt;p&gt;Dazu legen wir als root die Datei &lt;code&gt;/etc/systemd/system/consul.service&lt;/code&gt; an mit folgendem Inhalt:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;[Unit]
+Description=Consul
+After=docker.service
+Requires=docker.service
+
+[Service]
+TimeoutStartSec=0
+ExecStart=/usr/bin/docker start consul
+ExecStop=/usr/bin/docker stop consul
+
+[Install]
+WantedBy=multi-user.target
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Hier beschreiben wir den Dienst &amp;ldquo;Consul&amp;rdquo; und sagen das er nach dem Docker-Service gestartet werden soll. Das wars schon. Natürlich muss die Datei auf alle Cluster Pi&amp;rsquo;s kopiert werden.
+Dann noch den Service aktivieren&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;systemctl enable  /etc/systemd/system/consul.service
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;und erstmal den Dienst von Hand starten&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;systemctl start consul.service
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;So, jetzt sollte der Consul Container laufen und auch beim nächsten Systemstart automatisch geladen werden.
+War ja einfach&amp;hellip;..&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>Raspberry Pi 3 Docker Swarm Cluster</title>
