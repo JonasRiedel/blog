@@ -1,0 +1,44 @@
+baseurl = "http://jonasriedel.de/"
+languageCode = "de-de"
+title = "Jonas Blog"
+theme = "hugo-geo"
+
+disqusShortname = "jonasriedel"
+paginate = 5
+
+[taxonomies]
+	tag = "tags"
+	#tutorial = "tutorials"
+
+[params]
+	# Render the rotating globe in the sidebar
+	showglobe = true
+ 	
+	# Google Analytics
+	analytics = "SHORT-CODE-HERE"
+
+	# Social buttons for sidebar
+	#github = "https://github.com/alexurquhart"
+	#twitter = "https://twitter.com/alexanderurq"
+	#linkedin = "https://linkedin.com"
+	email = "jonasriedel70@gmail.com"
+	
+	# Sidebar profile picture
+	profilepic = "img/profil.jpg"
+	
+	# Title/subtitle for the sidebar
+	title = "JONAS RIEDEL"
+	subtitle = "SOFTWARE PROFESSIONAL"
+	
+	# Nav links below the profile picture
+	[[params.navlinks1]]
+	name = "About"
+	url = "about/"
+	
+	[[params.navlinks]]
+	name = "Blog"
+	url = "post/"
+	
+	[[params.navlinks1]]
+	name = "Tutorials"
+	url = "tutorial/"
