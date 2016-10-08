@@ -1,7 +1,7 @@
 +++
 date = "2016-03-13T18:08:33+01:00"
 title = "MIT SYSTEMD DOCKER CONTAINER STARTEN"
-
+tags = ["systemd", "docker"]
 +++
 
 Auf meinem [Raspberry Pi Docker Cluster](/post/first) habe ich den Service-Discocvery Dienst Consul als Container installiert. Damit das Teil jetzt auch nach einem reboot startet, wird jetzt ein systemd Service eingerichtet der Consul automatisch startet.
